@@ -1,0 +1,14 @@
+services:
+  redis:
+    image: redis:7-alpine
+    command: redis-server --requirepass devpass
+  api:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile
+    ports: ["8000:5000"]
+    environment:
+      REDIS_HOST: redis
+      REDIS_PORT: "6379"
+      REDIS_PASSWORD: devpass
+    depends_on: [redis]
